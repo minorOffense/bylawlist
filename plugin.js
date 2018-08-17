@@ -1,7 +1,7 @@
 CKEDITOR.plugins.add( 'bylawlist', {
     onLoad: function() {
       CKEDITOR.addCss(
-        'ol.bylawlist,ol.bylawlist>li,ol.bylawlist>li ol>li,ol.bylawlist>li ol>li ol>li{list-style-type:none;list-style-position:inside}ol.bylawlist{padding-left:1.5em}ol.bylawlist>li{counter-increment:first}ol.bylawlist>li:before{content:"(" counter(first,decimal) ") "}ol.bylawlist>li ol>li{counter-increment:second}ol.bylawlist>li ol>li:before{content:"(" counter(second,lower-alpha) ") "}ol.bylawlist>li ol>li ol>li{counter-increment:third}ol.bylawlist>li ol>li ol>li:before{content:"(" counter(third,lower-roman) ") "}'
+        'ol.bylawlist,ol.bylawlist>li,ol.bylawlist>li ol>li,ol.bylawlist>li ol>li ol>li, ol.bylawlist>li ol>li ol>li ol>li{list-style-type:none;list-style-position:inside}ol.bylawlist{padding-left:1.5em}ol.bylawlist>li{counter-increment:first}ol.bylawlist>li:before{content:"(" counter(first,decimal) ") "}ol.bylawlist>li ol>li{counter-increment:second}ol.bylawlist>li ol>li:before{content:"(" counter(second,lower-alpha) ") "}ol.bylawlist>li ol>li ol>li{counter-increment:third}ol.bylawlist>li ol>li ol>li:before{content:"(" counter(third,lower-roman) ") "}ol.bylawlist>li ol>li ol>li ol>li{counter-increment:fourth}ol.bylawlist>li ol>li ol>li ol>li:before{content:"(" counter(fourth,lower-greek) ") "}'
       );
     },
     icons: 'bylawlist', // Bylaw List icon
@@ -25,7 +25,7 @@ CKEDITOR.plugins.add( 'bylawlist', {
         editor.ui.addButton( 'Bylawlist', {
             label: 'Add Bylawlist',
             command: 'insertBylawlist',
-            toolbar: 'insert'
+            toolbar: 'insert'g
         });
         var format = {'element': 'Bylawlist'};
         var style = new CKEDITOR.style(format);
