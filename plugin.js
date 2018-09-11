@@ -17,7 +17,6 @@ CKEDITOR.plugins.add('bylawlist', {
             } else {
               bylaw.className = "";
             }
-
           }
         }
       }
