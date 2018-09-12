@@ -9,8 +9,8 @@ CKEDITOR.plugins.add('bylawlist', {
     editor.addCommand('insertBylawlist', {
       exec: function (editor) {
         if ('li' == editor.getSelection().getStartElement().getName()) {
-          if ('OL' == editor.getSelection().getStartElement().jQuery.parentNode.nodeName) {
-            var bylaw = editor.getSelection().getStartElement().jQuery.parentNode;
+          if ('OL' == editor.getSelection().getStartElement().$.parentNode.nodeName) {
+            var bylaw = editor.getSelection().getStartElement().$.parentNode;
 
             if (bylaw.className.indexOf("bylawlist") < 0) {
               bylaw.className += "bylawlist";
