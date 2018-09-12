@@ -48,6 +48,7 @@ CKEDITOR.plugins.add('bylawlist', {
         jQuery(obj).find('li').first().css('counter-reset', 'bylawlist-counter ' + (jQuery(obj).attr('start') - 1));
       }
 
+      // Getting access to the CKEditor dom / body element.
       const target = editor.document.findOne('body').$;
 
       jQuery(target).find('ol[start]').each(function (index, obj) {
