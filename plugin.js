@@ -1,7 +1,7 @@
 CKEDITOR.plugins.add( 'bylawlist', {
   onLoad: function() {
     CKEDITOR.addCss(
-      'ol.bylawlist{list-style-type:none;list-style-position:inside;padding-left:1.5em}ol.bylawlist>li>ol,ol.bylawlist>li>ol>li>ol{list-style-type:inherit}ol.bylawlist li{counter-increment:bylawlist-counter}ol.bylawlist li:first-child{counter-reset:bylawlist-counter}ol.bylawlist>li:before{content:"(" counter(bylawlist-counter,decimal) ") "}ol.bylawlist>li>ol>li:before{content:"(" counter(bylawlist-counter,lower-alpha) ") "}ol.bylawlist>li>ol>li>ol>li:before{content:"(" counter(bylawlist-counter,lower-roman) ") "}ol.bylawlist>li>ol>li>ol>li>ol{list-style-type:decimal}ol.bylawlist>li>ol>li>ol>li>ol>li:before{content:none}'
+      'ol.bylawlist{list-style-type:none;list-style-position:inside;padding-left:1.5em}ol.bylawlist li{counter-increment:bylawlist-counter !important}ol.bylawlist li:first-child{counter-reset:bylawlist-counter}ol.bylawlist>li:before{content:"(" counter(bylawlist-counter,decimal) ") " !important}ol.bylawlist>li>ol{list-style-type:inherit}ol.bylawlist>li>ol>li:before{content:"(" counter(bylawlist-counter,lower-alpha) ") "}ol.bylawlist>li>ol>li>ol{list-style-type:inherit}ol.bylawlist>li>ol>li>ol>li:before{content:"(" counter(bylawlist-counter,lower-roman) ") "}ol.bylawlist>li>ol>li>ol>li>ol{list-style-type:inherit}ol.bylawlist>li>ol>li>ol>li>ol>li:before{content:"(" counter(bylawlist-counter,decimal) ") "}ol.bylawlist>li ol>li:before{content:"(" counter(bylawlist-counter,lower-alpha) ") " !important}ol.bylawlist>li ol>li ol>li:before{content:"(" counter(bylawlist-counter,lower-roman) ") " !important}ol.bylawlist>li ol>li ol>li ol>li:before{content:counter(bylawlist-counter,decimal) ". " !important}'
     );
   },
   icons: 'bylawlist', // Bylaw List icon
@@ -45,7 +45,9 @@ CKEDITOR.plugins.add( 'bylawlist', {
       const lists = editor.document.find('ol[start]');
 
       jQuery(lists).each((index, obj) => {
-        updateList(obj.$);
+        jQuery(obj.$).each((index, element) => {
+          updateList(element);
+        });
       });
 
       const observerTarget = editor.document.find('html').$[0];
