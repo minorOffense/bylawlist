@@ -39,7 +39,10 @@ CKEDITOR.plugins.add( 'bylawlist', {
        * @param {object} obj the list object.
        */
       function updateList(obj) {
-        jQuery(obj).find('li').first().css('counter-reset', 'bylawlist-counter ' + (jQuery(obj).attr('start') - 1));
+        const start = jQuery(obj).attr('start') ? jQuery(obj).attr('start') - 1 : 0;
+
+        jQuery(obj).find('li').css('counter-reset', '');
+        jQuery(obj).find('li').first().css('counter-reset', `bylawlist-counter ${start}`);
       }
 
       const lists = editor.document.find('ol[start]');
@@ -51,12 +54,20 @@ CKEDITOR.plugins.add( 'bylawlist', {
       });
 
       const observerTarget = editor.document.find('html').$[0];
-      const observerConfig = { attributes: true, subtree: true };
+      const observerConfig = {
+        attributes: true,
+        subtree: true,
+        childList: true
+      };
       const observerCallback = (mutationsList, observer) => {
         mutationsList.forEach((mutation) => {
-            if (mutation.attributeName == 'start') {
-              updateList(mutation.target)
-            }
+          if (mutation.target.localName === 'ol' && (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0)) {
+            updateList(mutation.target);
+          }
+
+          if (mutation.attributeName == 'start') {
+            updateList(mutation.target)
+          }
         });
       };
       const observer = new MutationObserver(observerCallback);
