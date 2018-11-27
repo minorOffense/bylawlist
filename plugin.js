@@ -34,28 +34,41 @@ CKEDITOR.plugins.add( 'bylawlist', {
 
     editor.on('contentDom', () => {
       /**
-       * Updates all list starting points.
+       * Updates all list item starting points based on list start value.
        *
-       * @param {object} obj the list object.
+       * @param {object} list - the list object.
        */
-      function updateList(obj) {
-        jQuery(obj).find('li').first().css('counter-reset', 'bylawlist-counter ' + (jQuery(obj).attr('start') - 1));
+      function updateList(list) {
+        const start = list.getAttribute('start') ? list.getAttribute('start') - 1 : 0;
+        const listItems = list.querySelectorAll(':scope > li');
+
+        listItems.forEach((item) => {
+          item.style.counterReset = listItems[0] === item ? `bylawlist-counter ${start}` : '';
+        });
       }
 
-      const lists = editor.document.find('ol[start]');
+      // Run updateList on all lists with start values.
+      editor.document.find('ol[start]').$.forEach((list) => {
+        updateList(list);
+      })
 
-      jQuery(lists).each((index, obj) => {
-        jQuery(obj.$).each((index, element) => {
-          updateList(element);
-        });
-      });
-
+      // Set up MutationObserver.
       const observerTarget = editor.document.find('html').$[0];
-      const observerConfig = { attributes: true, subtree: true };
+      const observerConfig = {
+        attributes: true,
+        subtree: true,
+        childList: true
+      };
       const observerCallback = (mutationsList, observer) => {
         mutationsList.forEach((mutation) => {
-            if (mutation.attributeName == 'start') {
-              updateList(mutation.target)
+            // Update lists that add/remove nodes.
+            if (mutation.target.localName === 'ol' && (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0)) {
+              updateList(mutation.target);
+            }
+
+            // Update lists that change start value.
+            if (mutation.attributeName === 'start') {
+              updateList(mutation.target);
             }
         });
       };
