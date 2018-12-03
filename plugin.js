@@ -39,11 +39,39 @@ CKEDITOR.plugins.add( 'bylawlist', {
        * @param {object} list - the list object.
        */
       function updateList(list) {
-        const start = list.getAttribute('start') ? list.getAttribute('start') - 1 : 0;
+        // If the object passed in it not an ordered list, do not continue.
+        if (list.localName !== 'ol') return null
+
+        const start = list.getAttribute('start') > 1 ? list.getAttribute('start') : 1;
         const listItems = list.querySelectorAll(':scope > li');
 
         listItems.forEach((item) => {
-          item.style.counterReset = listItems[0] === item ? `bylawlist-counter ${start}` : '';
+          item.style.counterReset = listItems[0] === item ? `bylawlist-counter ${start - 1}` : '';
+        });
+      }
+
+      /**
+       * Runs the updateList function on all bylawlists and child lists.
+       *
+       * This is to ensure all lists are updated even if some mutations aren't caught.
+       */
+      function updateAllLists() {
+        // Get all bylaw lists.
+        const bylawLists = editor.document.find('ol.bylawlist').$;
+
+        // Update all bylaw lists.
+        bylawLists.forEach((bylawList) => {
+          if (typeof bylawList !== 'undefined' && bylawList) {
+            updateList(bylawList);
+
+            // Get all child lists.
+            const sublists = bylawList.querySelectorAll('ol');
+
+            // Update all child lists.
+            sublists.forEach((list) => {
+              updateList(list);
+            })
+          }
         });
       }
 
@@ -63,12 +91,17 @@ CKEDITOR.plugins.add( 'bylawlist', {
         mutationsList.forEach((mutation) => {
             // Update lists that add/remove nodes.
             if (mutation.target.localName === 'ol' && (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0)) {
-              updateList(mutation.target);
+              updateAllLists();
+            }
+
+            // Update list items that move postions.
+            if (mutation.target.localName === 'li' && (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0)) {
+              updateAllLists();
             }
 
             // Update lists that change start value.
             if (mutation.attributeName === 'start') {
-              updateList(mutation.target);
+              updateAllLists();
             }
         });
       };
