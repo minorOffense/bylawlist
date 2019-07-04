@@ -1,4 +1,6 @@
 CKEDITOR.plugins.add( 'bylawlist', {
+  allowedContent: 'ol[class,start] ul[class]',
+  requiredContent: 'ol[class,start] ul[class]',
   onLoad: function() {
     CKEDITOR.addCss(
       'ol.bylawlist{list-style-type:none;list-style-position:inside;padding-left:1.5em}ol.bylawlist li{counter-increment:bylawlist-counter !important}ol.bylawlist li:first-child{counter-reset:bylawlist-counter}ol.bylawlist>li:before{content:"(" counter(bylawlist-counter,decimal) ") " !important}ol.bylawlist>li>ol{list-style-type:inherit}ol.bylawlist>li>ol>li:before{content:"(" counter(bylawlist-counter,lower-alpha) ") "}ol.bylawlist>li>ol>li>ol{list-style-type:inherit}ol.bylawlist>li>ol>li>ol>li:before{content:"(" counter(bylawlist-counter,lower-roman) ") "}ol.bylawlist>li>ol>li>ol>li>ol{list-style-type:inherit}ol.bylawlist>li>ol>li>ol>li>ol>li:before{content:"(" counter(bylawlist-counter,decimal) ") "}ol.bylawlist>li ol>li:before{content:"(" counter(bylawlist-counter,lower-alpha) ") " !important}ol.bylawlist>li ol>li ol>li:before{content:"(" counter(bylawlist-counter,lower-roman) ") " !important}ol.bylawlist>li ol>li ol>li ol>li:before{content:counter(bylawlist-counter,decimal) ". " !important}'
