@@ -30,7 +30,7 @@ CKEDITOR.plugins.add( 'bylawlist', {
     editor.ui.addButton( 'Bylawlist', {
         label: 'Add Bylawlist',
         command: 'insertBylawlist',
-        toolbar: 'insert',
+        toolbar: 'insert'
     });
     var format = {'element': 'Bylawlist'};
     var style = new CKEDITOR.style(format);
