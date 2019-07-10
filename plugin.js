@@ -7,6 +7,12 @@ CKEDITOR.plugins.add( 'bylawlist', {
   icons: 'bylawlist', // Bylaw List icon
   init: function( editor ) {
       editor.addCommand( 'insertBylawlist', {
+        allowedContent: {
+          'ol': {
+            attributes: ['class', 'start'],
+            classes: 'bylawlist'
+          },
+        },
           exec: function( editor ) {
             if ('li' == editor.getSelection().getStartElement().getName()) {
               if ('OL' == editor.getSelection().getStartElement().$.parentNode.nodeName) {
